@@ -1,0 +1,92 @@
+class Room:
+    def __init__(self, room_number, room_type, status="Available"):
+        self.room_number = room_number
+        self.room_type = room_type
+        self.status = status
+
+    def __str__(self):
+        return f"Room {self.room_number} - Type: {self.room_type} - Status: {self.status}"
+
+
+class RoomManagementSystem:
+    def __init__(self):
+        self.rooms = {}
+
+    def add_room(self, room_number, room_type):
+        if room_number in self.rooms:
+            print(f"Room {room_number} already exists.")
+        else:
+            self.rooms[room_number] = Room(room_number, room_type)
+            print(f"Added Room {room_number}.")
+
+    def display_rooms(self):
+        if not self.rooms:
+            print("No rooms available.")
+        else:
+            print("Room List:")
+            for room in self.rooms.values():
+                print(room)
+
+    def update_room_status(self, room_number, status):
+        if room_number in self.rooms:
+            self.rooms[room_number].status = status
+            print(f"Updated Room {room_number} to status: {status}.")
+        else:
+            print(f"Room {room_number} not found.")
+
+    def check_availability(self, room_type=None):
+        available_rooms = [
+            room for room in self.rooms.values()
+            if room.status == "Available" and (room_type is None or room.room_type == room_type)
+        ]
+        if not available_rooms:
+            print(f"No available rooms{f' of type {room_type}' if room_type else ''}.")
+        else:
+            print("Available Rooms:")
+            for room in available_rooms:
+                print(room)
+
+    def remove_room(self, room_number):
+        if room_number in self.rooms:
+            del self.rooms[room_number]
+            print(f"Removed Room {room_number}.")
+        else:
+            print(f"Room {room_number} not found.")
+
+
+# Example usage
+if __name__ == "__main__":
+    room_system = RoomManagementSystem()
+
+    while True:
+        print("\n--- Room Management Menu ---")
+        print("1. Add Room")
+        print("2. Display Rooms")
+        print("3. Update Room Status")
+        print("4. Check Availability")
+        print("5. Remove Room")
+        print("6. Exit")
+        choice = int(input("Enter your choice: "))
+        
+        if choice == 1:
+            room_number = input("Enter room number: ")
+            room_type = input("Enter room type: ")
+            room_system.add_room(room_number, room_type)
+        elif choice == 2:
+            room_system.display_rooms()
+        elif choice == 3:
+            room_number = input("Enter room number: ")
+            status = input("Enter new status (Available/Occupied/Maintenance): ")
+            room_system.update_room_status(room_number, status)
+        elif choice == 4:
+            room_type = input("Enter room type to check availability (leave blank for all types): ")
+            room_type = room_type if room_type else None
+            room_system.check_availability(room_type)
+        elif choice == 5:
+            room_number = input("Enter room number to remove: ")
+            room_system.remove_room(room_number)
+        elif choice == 6:
+            print("Exiting Room Management System.")
+            break
+        else:
+            print("Invalid choice! Please try again.")

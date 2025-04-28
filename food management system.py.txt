@@ -1,0 +1,55 @@
+
+class FoodItem:
+    def __init__(self, name, price, quantity):
+        self.name = name
+        self.price = price
+        self.quantity = quantity
+
+    def __str__(self):
+        return f"{self.name} - Price: {self.price}, Quantity: {self.quantity}"
+
+
+class FoodManagementSystem:
+    def __init__(self):
+        self.menu = []
+
+    def add_food_item(self, name, price, quantity):
+        new_item = FoodItem(name, price, quantity)
+        self.menu.append(new_item)
+        print(f"Added: {name} to the menu.")
+
+    def display_menu(self):
+        if not self.menu:
+            print("Menu is empty!")
+        else:
+            print("Menu:")
+            for index, item in enumerate(self.menu):
+                print(f"{index + 1}. {item}")
+
+    def update_food_item(self, name, price=None, quantity=None):
+        for item in self.menu:
+            if item.name == name:
+                if price is not None:
+                    item.price = price
+                if quantity is not None:
+                    item.quantity = quantity
+                print(f"Updated: {name}")
+                return
+        print(f"Food item {name} not found.")
+
+    def remove_food_item(self, name):
+        for item in self.menu:
+            if item.name == name:
+                self.menu.remove(item)
+                print(f"Removed: {name}")
+                return
+        print(f"Food item {name} not found.")
+
+
+class HotelManagementSystem:
+    def __init__(self):
+        self.food_system = FoodManagementSystem()
+
+    def manage_food(self):
+        print("\n--- Food Management Menu ---")
+       
